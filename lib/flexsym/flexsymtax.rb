@@ -20,12 +20,12 @@ module Flexsym
             [:byte, value]
         end
 
-        def block op1, op2, op3, op4
-            [:block, op1, op2, op3, op4]
+        def block cmd1, cmd2, cmd3, cmd4
+            [:block, cmd1, cmd2, cmd3, cmd4]
         end
 
-        def atom value
-            [:atom, value]
+        def op value
+            [:op, value]
         end
     end
 end
