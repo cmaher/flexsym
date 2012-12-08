@@ -15,14 +15,13 @@ module Flexsym
        
         OPS = [C_SUCC, C_PRED, C_LEFT, C_RIGHT, C_OUT, C_VOID]
 
-        CODES = {
-            C_SUCC  => Flexsymtax::CODES[:succ],
-            C_PRED  => Flexsymtax::CODES[:pred], 
-            C_LEFT  => Flexsymtax::CODES[:left],
-            C_RIGHT => Flexsymtax::CODES[:right],
-            C_OUT   => Flexsymtax::CODES[:out],
-            C_VOID  => Flexsymtax::CODES[:void],
-            C_QUOTE => Flexsymtax::CODES[:quote]
+        OPCODES = {
+            C_SUCC  => Flexsymtax::O_SUCC,
+            C_PRED  => Flexsymtax::O_PRED, 
+            C_LEFT  => Flexstymtax::O_LEFT,
+            C_RIGHT => Flexsymtax::O_RIGHT,
+            C_OUT   => Flexsymtax::O_OUT,
+            C_VOID  => Flexsymtax::O_VOID,
         }
         
         def parser_ignore
@@ -42,7 +41,7 @@ module Flexsym
         end
 
         def parser_op
-           parser_ignore >> among(*OPS).map{|op| Flexsymtax.op(op)}
+           parser_ignore >> among(*OPS).map{|op| Flexsymtax.op(OPCODES[op])}
         end
 
         def parser_block
@@ -72,7 +71,7 @@ module Flexsym
             end
         end
 
-        def parse source
+        def parse(source)
             parser_program.parse(source)
         end
 

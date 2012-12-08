@@ -1,41 +1,47 @@
 module Flexsym
     module Flexsymtax
-        CODES = {
-            succ:   0x0,
-            pred:   0x1,
-            left:   0x2,
-            right:  0x3,
-            out:    0x4,
-            void:   0x5,
-            quote:  0xF
-        }
+        L_PROGRAM   = :program
+        L_STATE     = :state
+        L_LABEL     = :label
+        L_BRANCH    = :branch
+        L_NUM       = :num
+        L_BLOCK     = :block
+        L_OP        = :op
 
-        def self.program main_ref, states
-            [:program, main_ref, states]
+        O_SUCC  = :succ
+        O_PRED  = :pred
+        O_LEFT  = :left
+        O_RIGHT = :right
+        O_OUT   = :out
+        O_VOID  = :void
+
+        def self.program(main_ref, states)
+            [L_PROGRAM, main_ref, states]
         end
 
-        def self.state ref, default, branches
-            [:state, ref, default, branches]
+        def self.state(ref, default, branches)
+            [L_STATE, ref, default, branches]
         end
 
-        def self.label text
-            [:label, text]
+        def self.label(text)
+            [L_LABEL, text]
         end
 
-        def self.branch condition, block
-            [:branch, condition, block]
+        def self.branch(condition, block)
+            [L_BRANCH, condition, block]
         end
 
-        def self.num value
-            [:num, value]
+        def self.num(value)
+            [L_NUM, value]
         end
 
-        def self.block cmd1, cmd2, cmd3, cmd4
-            [:block, cmd1, cmd2, cmd3, cmd4]
+        def self.block(cmd1, cmd2, cmd3, cmd4)
+            [L_BLOCK, cmd1, cmd2, cmd3, cmd4]
         end
 
-        def self.op opcode
-            [:op, opcode]
+        #one of :succ, :pred, :left, :right, :out, :void
+        def self.op(opcode)
+            [L_OP, opcode]
         end
     end
 end
