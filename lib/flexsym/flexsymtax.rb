@@ -26,8 +26,8 @@ module Flexsym
             [:branch, condition, block]
         end
 
-        def self.byte value
-            [:byte, value]
+        def self.num value
+            [:num, value]
         end
 
         def self.block cmd1, cmd2, cmd3, cmd4
