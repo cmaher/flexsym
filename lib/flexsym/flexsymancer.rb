@@ -16,10 +16,6 @@ module Flexsym
 
         protected
 
-        def build
-            build @source
-        end
-
         def build(ast)
             @program = Program.extract(ast)
         end

@@ -1,5 +1,6 @@
 module Flexsym
     module Flexsymtax
+        #constants for AST node labels
         L_PROGRAM   = :program
         L_STATE     = :state
         L_LABEL     = :label
@@ -8,6 +9,7 @@ module Flexsym
         L_BLOCK     = :block
         L_OP        = :op
 
+        #constants for opcodes
         O_SUCC  = :succ
         O_PRED  = :pred
         O_LEFT  = :left
@@ -39,7 +41,6 @@ module Flexsym
             [L_BLOCK, cmd1, cmd2, cmd3, cmd4]
         end
 
-        #one of :succ, :pred, :left, :right, :out, :void
         def self.op(opcode)
             [L_OP, opcode]
         end

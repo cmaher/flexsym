@@ -28,8 +28,13 @@ module Flexsym
             when Flexsymtax::L_STATE
                 label = Label.extract(ast[1])
                 default = Block.extract(ast[2])
-                branches = ast[3].each do |branch_ast|
-                    Branch.extract(branch_ast)
+                branches = {}
+                ast[3].each do |branch_ast|
+                   branch = Branch.extract(branch_ast)
+                   if branches[branch.condition]
+                       branches[branch.condition] << branch
+                   else
+                       branches[branch.condition = [branch]
                 end
                 State.new(label, default, branches)
             else
