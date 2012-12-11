@@ -9,7 +9,8 @@ module Flexsym
         C_PRED  = '-'
         C_LEFT  = '<'
         C_RIGHT = '>'
-        C_OUT   = '^'
+        C_OUTA  = '^'
+        C_OUTD  = '.' 
         C_VOID  = '_'
         C_QUOTE = ';'
        
@@ -20,7 +21,8 @@ module Flexsym
             C_PRED  => Flexsymtax::O_PRED, 
             C_LEFT  => Flexstymtax::O_LEFT,
             C_RIGHT => Flexsymtax::O_RIGHT,
-            C_OUT   => Flexsymtax::O_OUT,
+            C_OUTA  => Flexsymtax::O_OUTA,
+            C_OUTD  => Flexsymtax::O_OUTD,
             C_VOID  => Flexsymtax::O_VOID,
         }
         

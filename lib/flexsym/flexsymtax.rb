@@ -14,7 +14,8 @@ module Flexsym
         O_PRED  = :pred
         O_LEFT  = :left
         O_RIGHT = :right
-        O_OUT   = :out
+        O_OUTA  = :outa
+        O_OUTD  = :outd
         O_VOID  = :void
 
         def self.program(main_ref, states)

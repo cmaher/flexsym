@@ -114,7 +114,7 @@ module Flexsym
                 @commands[:tape] = opcode
             when Flexsymtax::O_LEFT, Flexsymtax::O_RIGHT
                 @commands[:head] = opcode
-            when Flexsymtax::O_OUT
+            when Flexsymtax::O_OUTA, Flexsymtax::O_OUTD
                 @commands[:out]  = opcode
             when Flexsymtax::O_VOID
                 @commands[:void] = opcode
