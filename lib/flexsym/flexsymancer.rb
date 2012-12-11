@@ -16,12 +16,23 @@ module Flexsym
 
         def build(ast)
             @program = Program.extract(ast)
-            @machines = [Flexsymachine.new(@program.states, [], @program.main)]
+            @machines = [Flexsymachine.new(@program.states, Tape.new, @program.main)]
         end
 
-
         def run
-
+            halt = false
+            while !halt
+                @machines.each do |machine|
+                    # Step the machine; Get next states and tape
+                    next_states, tape = machine.step
+                    # If this machine halted, set halt to true
+                    halt = halt || machine.halt?
+                    # Add new machines to list
+                    next_states.each do |m|
+                        @machines.push(Flexsymachines.new(@program.states, tape.dup, s)
+                    end
+                end
+            end
         end
 
         # A class to maintain tape and head state
