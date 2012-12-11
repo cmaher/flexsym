@@ -3,8 +3,6 @@ require_relative 'flexstractor'
 
 module Flexsym
     class Flexsymancer
-        include Flexsymtax
-
         def initialize(ast)
             @source = ast.dup
         end
@@ -33,6 +31,31 @@ module Flexsym
                 @head = 0
             end
 
+            # Increase or decrease the cell depending on the op
+            def cell(op)
+                case op
+                when Flexsymtax::O_SUCC then succ
+                when Flexsymtax::O_PRED then pred
+                else fail "--#{op}-- is not a valid cell operation"
+                end
+            end
+
+            # Move left or right depending on the direction given
+            def move(direction)
+                case direction
+                when Flexsymtax::O_LEFT then left
+                when Flexsymtax::O_RIGHT then right
+                else fail "--#{direction}-- is not a valid direction"
+                end
+            end
+
+            # Returns the value of the tape at the head
+            def val
+                @tape[@head]
+            end
+
+            protected
+
             # Moves head left, creating new cell if necessary
             def left
                 if @head == 0
@@ -52,9 +75,14 @@ module Flexsym
                 end
             end
 
-            # Returns the value of the tape at the head
-            def val
-                @tape[@head]
+            # Tape cell + 1
+            def succ
+                @tape[@head] += 1
+            end
+
+            # Tape cell - 1
+            def pred
+                @tape[@head] -= 1
             end
         end
     end

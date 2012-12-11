@@ -13,7 +13,7 @@ module Flexsym
                 end
                 Program.new(main, states)
             else 
-                fail "Expected ${Flexsymtax::L_PROGRAM} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_PROGRAM} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -41,7 +41,7 @@ module Flexsym
                 end
                 State.new(label, default, branches)
             else
-                fail "Expected ${Flexsymtax::L_STATE} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_STATE} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -61,7 +61,7 @@ module Flexsym
                 block = Block.extract(ast[2])
                 Branch.new(condition, block)
             else
-                fail "Expected ${Flexsymtax::L_BRANCH} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_BRANCH} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -85,13 +85,13 @@ module Flexsym
                             Label.extract(cmd_ast)
                         end
                     else
-                        fail "Expected ${Flexsymtax::L_OP} or ${Flexsymtax::L_LABEL}"\
-                             "but found--${cmd_ast[0]}--${cmd_ast}"
+                        fail "Expected #{Flexsymtax::L_OP} or #{Flexsymtax::L_LABEL}"\
+                             "but found--#{cmd_ast[0]}--#{cmd_ast}"
                     end
                 end
                 Block.new(*cmds)
             else
-                fail "Expected ${Flexsymtax::L_BLOCK} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_BLOCK} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -131,7 +131,7 @@ module Flexsym
                 opcode = ast[1]
                 Op.new(opcode)
             else
-                fail "Expected ${Flexsymtax::L_OP} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_OP} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -150,7 +150,7 @@ module Flexsym
                 label = ast[1]
                 Label.new(label)
             else
-                fail "Expected ${Flexsymtax::L_Label} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_Label} but found--#{ast[0]}--#{ast}"
             end
         end
 
@@ -169,7 +169,7 @@ module Flexsym
                 s_int = ast[1]
                 Num.new(s_int)
             else
-                fail "Expected ${Flexsymtax::L_NUM} but found--${ast[0]}--${ast}"
+                fail "Expected #{Flexsymtax::L_NUM} but found--#{ast[0]}--#{ast}"
             end
         end
 
