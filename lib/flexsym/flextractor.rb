@@ -2,6 +2,8 @@ require_relative 'flexsymtax'
 
 module Flexsym
     class Program
+        attr_reader :main, :states
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_PROGRAM
@@ -17,12 +19,13 @@ module Flexsym
 
         private :new
         def initialize(main, states)
-            @main = main
-            @states = states
+            @main, @states = main, states
         end
     end
 
     class State
+        attr_reader :label, :default, :branches
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_STATE
@@ -44,13 +47,13 @@ module Flexsym
 
         private :new
         def initialize(label, default, branches)
-            @label = label
-            @default = default
-            @branches = branches
+            @label, @default, @branches = label, default, branches
         end
     end
 
     class Branch
+        attr_reader :condition, :block
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_BRANCH
@@ -64,12 +67,13 @@ module Flexsym
 
         private :new
         def initialize(condition, block)
-            @condition = condition
-            @block = block
+            @condition, @block = condition, block
         end
     end
 
     class Block
+        attr_reader :commands
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_BLOCK
@@ -119,6 +123,8 @@ module Flexsym
     end
 
     class Op
+        attr_reader :opcode
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_OP
@@ -136,6 +142,8 @@ module Flexsym
     end
 
     class Label
+        attr_reader :label
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_LABEL
@@ -153,6 +161,8 @@ module Flexsym
     end
 
     class Num
+        attr_reader :value
+
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_NUM
@@ -165,7 +175,7 @@ module Flexsym
 
         private :new
         def initialize(s_int)
-            @vaule = Integer(s_int)
+            @value = Integer(s_int)
         end
     end
 end
