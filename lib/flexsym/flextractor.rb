@@ -17,7 +17,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(main, states)
             @main, @states = main, states
         end
@@ -37,7 +37,8 @@ module Flexsym
                    if branches[branch.condition]
                        branches[branch.condition] << branch
                    else
-                       branches[branch.condition = [branch]
+                       branches[branch.condition] = [branch]
+                   end
                 end
                 State.new(label, default, branches)
             else
@@ -45,7 +46,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(label, default, branches)
             @label, @default, @branches = label, default, branches
         end
@@ -65,7 +66,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(condition, block)
             @condition, @block = condition, block
         end
@@ -79,11 +80,10 @@ module Flexsym
             when Flexsymtax::L_BLOCK
                 cmds = ast.slice(1,4).each do |cmd_ast|
                     case cmd_ast[0]
-                        begin
-                            Op.extract(cmd_ast)
-                        rescue
-                            Label.extract(cmd_ast)
-                        end
+                    when Flexsymtax::L_OP 
+                        Op.extract(cmd_ast)
+                    when Flexsymatax::L_LABEL 
+                        Label.extract(cmd_ast)
                     else
                         fail "Expected #{Flexsymtax::L_OP} or #{Flexsymtax::L_LABEL}"\
                              "but found--#{cmd_ast[0]}--#{cmd_ast}"
@@ -95,7 +95,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(*cmds)
             @commands = {}
             cmds.each do |cmd|
@@ -135,7 +135,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(opcode)
             @opcode = opcode
         end
@@ -154,7 +154,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(label)
             @label = label
         end
@@ -173,7 +173,7 @@ module Flexsym
             end
         end
 
-        private :new
+        private_class_method :new
         def initialize(s_int)
             @value = Integer(s_int)
         end

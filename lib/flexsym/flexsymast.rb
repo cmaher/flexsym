@@ -18,24 +18,25 @@ module Flexsym
 
         def parse
             quoting = false
-            @source_file.each_byte do |b|
+            @source.each_byte do |b|
                 # High-order, Low-order nibbles
                 nibbles = [b >> 4, b & 0x0F]
                 nibbles.each do |n|  
                     quoting = !quoting if n == Q_N
                     if quoting
-                        @source << n.chr
-                    elsif CODES[n] 
-                        @source << CODES[n]
+                        code = n.chr
+                    else
+                        code = CODES[n] ? CODES[n] : n.to_s(16)
                     end
+                    @unflex << code
                 end
             end
-            Unflexsymast.new(@source).parse
+            Unflexsymast.new(@unflex).parse
         end
 
-        def initialize(source_file)
+        def initialize(source)
             @source_file = source_file
-            @source = []
+            @unflex = []
         end
     end
 end

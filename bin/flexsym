@@ -1,0 +1,33 @@
+#!/usr/bin/env/ ruby
+
+require 'optparse'
+require '../lib/flexsym/flexsymancer'
+require '../lib/flexsym/flexsymast'
+require '../lib/flexsym/unflexsymast'
+
+USAGE = 'Usage: flexsym [<options>] <filename>' 
+
+# Parse options
+options = {}
+op = OptionParser.new do |opts|
+    opts.banner = USAGE
+    opts.separator ''
+
+    opts.on(:OPTIONAL, '-u', '--unflex', 'Treat the file as an unflexable Flexsym script') do |x|
+        options[:unflex] = true
+    end
+end
+op.parse!(ARGV)
+unless ARGV[0] 
+    puts USAGE
+    exit!
+end
+
+source = IO.read(ARGV[0])
+if options[:unflex]
+    parser = Flexsym::Unflexsymast.new(source)
+else
+    parser = Flexsym::Flexsymast.new(source)
+end
+
+Flexsym::Flexsymancer.new(parser.parse).interpret

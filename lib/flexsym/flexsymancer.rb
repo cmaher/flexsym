@@ -1,5 +1,5 @@
 require_relative 'flexsymtax'
-require_relative 'flexstractor'
+require_relative 'flextractor'
 
 module Flexsym
     class Flexsymancer
@@ -29,7 +29,7 @@ module Flexsym
                     halt = halt || machine.halt?
                     # Add new machines to list
                     next_states.each do |m|
-                        @machines.push(Flexsymachines.new(@program.states, tape.dup, s)
+                        @machines.push(Flexsymachines.new(@program.states, tape.dup, s))
                     end
                 end
             end
