@@ -13,7 +13,7 @@ class TestParse < Test::Unit::TestCase
         @flex = Flexsymast.new('')
     end
 
-    def test_p_ignore_accept!
+    def test_p_ignore!
         no_ignore = [*Unflexsymast::OPS, Unflexsymast::C_QUOTE]
         ignore = ['', ' ', "!@\#$%&*()=\u1234\u0123\u6fab", 
             *(?a..?z), *(?A..?Z), '01234567890abcdefABCDEF', *Unflexsymast::HEX]
