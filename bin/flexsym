@@ -1,9 +1,9 @@
 #!/usr/bin/env/ ruby
 
 require 'optparse'
-require '../lib/flexsym/flexsymancer'
-require '../lib/flexsym/flexsymast'
-require '../lib/flexsym/unflexsymast'
+require 'flexsym/flexsymancer'
+require 'flexsym/flexsymast'
+require 'flexsym/unflexsymast'
 
 USAGE = 'Usage: flexsym [<options>] <filename>' 
 

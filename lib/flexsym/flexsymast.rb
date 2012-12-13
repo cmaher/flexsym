@@ -16,9 +16,9 @@ module Flexsym
             Q_N => Unflexsymast::C_QUOTE
         }
 
-        def parse
+        def parse_string(str)
             quoting = false
-            @source.each_byte do |b|
+            str.each_byte do |b|
                 # High-order, Low-order nibbles
                 nibbles = [b >> 4, b & 0x0F]
                 nibbles.each do |n|  
@@ -34,8 +34,12 @@ module Flexsym
             Unflexsymast.new(@unflex).parse
         end
 
-        def initialize(source)
-            @source_file = source_file
+        def parse
+            parse_string(@source)
+        end
+
+        def initialize(source='')
+            @source = source
             @unflex = []
         end
     end

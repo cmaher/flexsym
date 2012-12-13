@@ -26,7 +26,7 @@ module Flexsym
             C_VOID  => Flexsymtax::O_VOID,
         }
 
-        HEX = *(?a..?z), *(?A..?Z), *(?0..?9)
+        HEX = *(?a..?f), *(?A..?F), *(?0..?9)
         
         # Ignore all non-(ops | quotes)
         def parser_ignore!
@@ -84,11 +84,15 @@ module Flexsym
         end
 
         def parse
-            parser_program.parse(@source)
+            parse_string(@source)
+        end
+
+        def parse_string(str)
+            parser_program.parse(str)
         end
 
         # Read the string and parse it 
-        def initialize(source_string)
+        def initialize(source_string='')
             @source = source_string
         end
     end
