@@ -1,9 +1,8 @@
-#!/usr/bin/env/ ruby
+#!/usr/bin/env ruby
 
+require 'rparsec'
 require 'optparse'
-require 'flexsym/flexsymancer'
-require 'flexsym/flexsymast'
-require 'flexsym/unflexsymast'
+require_relative '../lib/flexsym'
 
 USAGE = 'Usage: flexsym [<options>] <filename>' 
 

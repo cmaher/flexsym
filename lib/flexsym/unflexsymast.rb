@@ -41,43 +41,52 @@ module Flexsym
         def parser_label
             quote = char C_QUOTE
             text = not_among(C_QUOTE).many
-            parser_ignore! >> sequence(quote, text, quote) do |_, chars, _|
+            sequence(quote, text, quote) do |_, chars, _|
                 Flexsymtax.label(chars.join)
             end
         end
 
         def parser_num
-            hexnum = among(*HEX).many.map{|digits| digits.join}
-            parser_ignore >> hexnum.map{|num| Flexsymtax.num(num.to_i(16))}
+            hexnum = among(*HEX).repeat(2, 2).map{|digits| digits.join}
+            hexnum.map{|num| Flexsymtax.num(num.to_i(16))}
         end
 
         def parser_op
-            parser_ignore! >> among(*OPS).map{|op| Flexsymtax.op(OPCODES[op])}
+            among(*OPS).map{|op| Flexsymtax.op(OPCODES[op])}
+        end
+
+        def parser_command
+            parser_op | parser_label
         end
 
         def parser_block
-            cmd = parser_op | parser_label
-            parser_ignore! >> cmd.repeat(4, 4).map do |c1, c2, c3, c4|
+            command_skip = parser_command << parser_ignore!
+            sequence(command_skip,
+                     command_skip,
+                     command_skip,
+                     parser_command) do |c1, c2, c3, c4|
                 Flexsymtax.block(c1, c2, c3, c4)
             end
         end
 
         def parser_branch
-            parser_ignore >> sequence(parser_num, parser_block) do |condition, block|
+            sequence(parser_ignore >> parser_num, 
+                     parser_ignore! >> parser_block) do |condition, block|
                 Flexsymtax.branch(condition, block)
             end
         end
 
         def parser_state
             branches = parser_branch.many
-            parser_ignore! >> 
-                sequence(parser_label, parser_block, branches) do |ref, default, branches|
+            sequence(parser_ignore! >> parser_label,
+                     parser_ignore! >> parser_block,
+                     parser_ignore! >> branches) do |ref, default, branches|
                 Flexsymtax.state(ref, default, branches)
             end
         end
 
         def parser_program
-            states = parser_state.many(1)
+            states = (parser_state << parser_ignore!).many(1)
             parser_ignore! >> sequence(parser_label, states) do |main_ref, states|
                 Flexsymtax.program(main_ref, states)
             end
