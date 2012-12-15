@@ -96,8 +96,9 @@ Again, _ are not executed, they just take the place of a command
 Many commands of the same type or execution level can be given in a single block, but only the last one
 will actually be executed.
 
-See examples/hello.flexsym for "Hello, World!"
-See examples/nd4.flexsym for nondeterministic branching
+See (examples/hello.flexsym)[https://github.com/cmaher/flexsym/blob/master/examples/hello.flexsym] for "Hello, World!"
+
+See (examples/nd4.flexsym)[https://github.com/cmaher/flexsym/blob/master/examples/nd4.flexsym] for nondeterministic branching
 
 Basic Grammar:
 ```
