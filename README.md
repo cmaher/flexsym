@@ -6,6 +6,7 @@ for the construction of non-deterministic Turing machines.
 
 ## Requirements
 Ruby 1.9.3
+
 rparsec-ruby19
 
 ##Description
@@ -26,14 +27,12 @@ of one state before any transitions are made.  If one machine halts, the program
 States are declared by wrapping a string in ';' characters,
 and then declaring the default block of commands for that state.
 
-EX.
 ```
     ;state; _ _ _ _     This state does nothing
 ```
 They can optionally be followed by a number of branches, each starting with a hex number, 
 followed by a block ofcommands
 
-EX.
 ```
     ;state; _ _ _ _ 
     4f      _ _ _ _          Still doing nothing
@@ -114,7 +113,7 @@ Basic Grammar:
     <number>        ::= <hexnum> | "-" <hexnum>
     <hexnum>        ::= [0-9a-fA-F]+
 ```
-Additionally, non-op, non-';', are allowed anywhere.
-Hexnum characters are also allowed anywhere, but will be interpreted as numbers if a block has just been finished
+Additionally, non-op, non-';', are allowed anywhere. Note that in most places, a-f will be interpreted as numbers, so be careful.  A good place for comments is inbetween a state's label and its default block
+
 
 This is an entry for the December 2012 competion at www.pltgames.com
