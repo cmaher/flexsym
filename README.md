@@ -120,4 +120,4 @@ Basic Grammar:
 Additionally, non-op, non-';', are allowed anywhere. Note that in most places, a-f will be interpreted as numbers, so be careful.  A good place for comments is inbetween a state's label and its default block
 
 
-This is an entry for the December 2012 competion at www.pltgames.com
+This is an entry for the December 2012 competition at www.pltgames.com
