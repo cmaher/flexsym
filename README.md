@@ -26,7 +26,9 @@ EX.
 They can optionally be followed by a number of branches, each starting with a hex number, 
 followed by a block ofcommands
 EX.
+```
     4f _ _ _ _          Still doing nothing
+```
 
 At runtime, the state will read the value of the tape at the head.
 If the value matches the value at the start of one or more branches, those branches will be executed.
@@ -75,10 +77,10 @@ There are eight types of commands that can be executed in a block
 </table>
 
 No matter what order the commands are written in a block, they are executed in the following order:
-1. +/-
-2. ^/.
-3. &gt;/&lt;
-4. ;label;
+1.      +/-
+2.      ^/.
+3.      &gt;/&lt;
+4.      ;label;
 Again, _ are not executed, they just take the place of a command
 
 Many commands of the same type or execution level can be given in a single block, but only the last one
@@ -88,6 +90,7 @@ See examples/hello.flexsym for "Hello, World!"
 See examples/nd4.flexsym for nondeterministic branching
 
 Basic Grammar:
+```
     <program>       ::= <label> <state-list>
     <label>         ::= ";" [^;]* ";"
     <state-list>    ::= <state> | <state-list> <state>
@@ -99,7 +102,7 @@ Basic Grammar:
     <branch>        ::= <number> <block>
     <number>        ::= <hexnum> | "-" <hexnum>
     <hexnum>        ::= [0-9a-fA-F]+
-
+```
 Additionally, non-op, non-';', are allowed anywhere.
 Hexnum characters are also allowed anywhere, but will be interpreted as numbers if a block has just been finished
 
