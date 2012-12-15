@@ -66,7 +66,14 @@ module Flexsym
 
         # Return the transition state
         def exec_trans(block, next_states)
-            next_states << @states[block[:trans]] if block[:trans]
+            if block[:trans]
+                s = @states[block[:trans]]
+                if not s.nil?
+                    next_states << @states[block[:trans]]
+                else
+                    fail "Unrecognized state: ;#{block[:trans]};"
+                end
+            end
         end
 
         def halt?

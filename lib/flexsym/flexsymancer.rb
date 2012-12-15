@@ -31,7 +31,7 @@ module Flexsym
                     halt = halt || machine.halt?
                     # Add new machines to list
                     next_states.each do |m|
-                        @machines.push(Flexsymachines.new(@program.states, tape.dup, m))
+                        @machines.push(Flexsymachine.new(@program.states, tape.dup, m))
                     end
                 end
             end
