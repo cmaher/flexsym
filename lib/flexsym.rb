@@ -1,3 +1,5 @@
+require_relative 'flexsym/flexsymtax'
+require_relative 'flexsym/flextractor'
+require_relative 'flexsym/flexsymachine'
 require_relative 'flexsym/flexsymancer.rb'
 require_relative 'flexsym/unflexsymast.rb'
-require_relative 'flexsym/flexsymast.rb'
