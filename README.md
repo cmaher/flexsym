@@ -19,15 +19,18 @@ of one state before any transitions are made.  If one machine halts, the program
 
 States are declared by wrapping a string in ';' characters,
 and then declaring the default block of commands for that state.
+
 EX.
 ```
     ;state; _ _ _ _     This state does nothing
 ```
 They can optionally be followed by a number of branches, each starting with a hex number, 
 followed by a block ofcommands
+
 EX.
 ```
-    4f _ _ _ _          Still doing nothing
+    ;state; _ _ _ _ 
+    4f      _ _ _ _          Still doing nothing
 ```
 
 At runtime, the state will read the value of the tape at the head.
