@@ -70,7 +70,7 @@ There are eight types of commands that can be executed in a block
             <td>Void -- doesn't do anything, takes up one command entry</td>
         </tr>
         <tr>
-            <td>;&lt;label&gt;</td>
+            <td>;&lt;label&gt;;</td>
             <td>Transition to the state with the given label</td>
         </tr>
     <tbody>
@@ -78,14 +78,10 @@ There are eight types of commands that can be executed in a block
 
 No matter what order the commands are written in a block, they are executed in the following order:
 
-
-1.      +/-
-
-2.      ^/.
-
-3.      &gt;/&lt;
-
-4.      ;label;
+1. +/-
+2. ^/.
+3. &gt;/&lt;
+4. ;label;
 
 Again, _ are not executed, they just take the place of a command
 
