@@ -111,4 +111,4 @@ Basic Grammar:
 Additionally, non-op, non-';', are allowed anywhere.
 Hexnum characters are also allowed anywhere, but will be interpreted as numbers if a block has just been finished
 
-A Turing tarpit for the pltgames.com Dec2012 competition
+This is an entry for the December 2012 competion at www.pltgames.com
