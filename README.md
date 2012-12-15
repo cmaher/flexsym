@@ -9,6 +9,9 @@ Ruby 1.9.3
 
 rparsec-ruby19
 
+## Usage
+$ bin/flexsym <code-file>
+
 ##Description
 
 Just like a Turing machine, the flexsym runtime operates on a set of states, an infinite 1-dimensional tape,
