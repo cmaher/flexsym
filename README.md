@@ -28,14 +28,14 @@ States are declared by wrapping a string in ';' characters,
 and then declaring the default block of commands for that state.
 
 ```
-    ;state; _ _ _ _     This state does nothing
+    ;state; _ _ _ _
 ```
 They can optionally be followed by a number of branches, each starting with a hex number, 
 followed by a block ofcommands
 
 ```
     ;state; _ _ _ _ 
-    4f      _ _ _ _          Still doing nothing
+    4f      _ _ _ _
 ```
 
 At runtime, the state will read the value of the tape at the head.
