@@ -7,21 +7,30 @@ module Flexsym
             @halt = false
         end
 
+        # Performs one iteration on a machine
+        # Returns:
+        # * A list of new states for nondeterministic branching
+        # * The tape, for duplicating and passing to new machines
         def step
             # Init the list of new machines
             next_states = []
 
             # Get the branches corresponding to the current tape value
-            exec = cur_state.branches[@tape.val]
-            # Or the default, if no branches match the tape value
-            exec = [cur_state.default] if exec.empty?
+            # Or choose the default
+            branches = @cur_state.branches[@tape.val]
+            if not branches.nil?
+                blocks = branches.map{ |branch| branch.block} 
+            else
+                blocks = [@cur_state.default]
+            end
 
             # execute each block
-            exec.each do |block|
-                exec_tape(block)
-                exec_out(block)
-                exec_head(block)
-                exec_trans(block, next_states)
+            blocks.each do |block|
+                cmds = block.commands
+                exec_tape(cmds)
+                exec_out(cmds)
+                exec_head(cmds)
+                exec_trans(cmds, next_states)
             end
 
             if next_states.empty?
@@ -29,11 +38,11 @@ module Flexsym
                 @halt = true
             else
                 # Else, give one of the next states to this machine
-                @cur_state = @states(next_states.pop)
+                @cur_state = next_states.pop
             end
 
-            # Return the remaining states (and the tape for duping
-            next_states
+            # Return the remaining states (and the tape for duping)
+            return next_states, @tape
         end
 
         # Perform tape cell operation (:succ/:pred)
@@ -43,7 +52,7 @@ module Flexsym
 
         # Perform tape head operation (:left/:right)
         def exec_head(block)
-            @tape.head(block[:head]) if block[:head]
+            @tape.move(block[:head]) if block[:head]
         end
 
         # Perform output (:outa/:outd)
@@ -52,13 +61,12 @@ module Flexsym
             case block[:out]
             when Flexsymtax::O_OUTA then print [val].pack('U')
             when Flexsymtax::O_OUTD then print val
-            else fail "#{block[:out]} not a vaild output command"
             end
         end
 
         # Return the transition state
         def exec_trans(block, next_states)
-            next_states << block[:trans] if block[:trans]
+            next_states << @states[block[:trans]] if block[:trans]
         end
 
         def halt?

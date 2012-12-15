@@ -8,16 +8,19 @@ module Flexsym
             case ast[0]
             when Flexsymtax::L_PROGRAM
                 main = Label.extract(ast[1])
-                states = ast[2].each do |state_ast|
-                    State.extract(state_ast)
+
+                state_arr = ast[2].map do |state_ast|
+                    s = State.extract(state_ast)
+                    [s.label.value, s]
                 end
-                Program.new(main, states)
+
+                state_hash = Hash[state_arr]
+                Program.new(main, state_hash)
             else 
                 fail "Expected #{Flexsymtax::L_PROGRAM} but found--#{ast[0]}--#{ast}"
             end
         end
 
-        private_class_method :new
         def initialize(main, states)
             @main, @states = main, states
         end
@@ -46,7 +49,6 @@ module Flexsym
             end
         end
 
-        private_class_method :new
         def initialize(label, default, branches)
             @label, @default, @branches = label, default, branches
         end
@@ -58,7 +60,7 @@ module Flexsym
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_BRANCH
-                condition = Num.extract(ast[1])
+                condition = Num.extract(ast[1]).value
                 block = Block.extract(ast[2])
                 Branch.new(condition, block)
             else
@@ -66,7 +68,6 @@ module Flexsym
             end
         end
 
-        private_class_method :new
         def initialize(condition, block)
             @condition, @block = condition, block
         end
@@ -78,11 +79,11 @@ module Flexsym
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_BLOCK
-                cmds = ast.slice(1,4).each do |cmd_ast|
+                cmds = ast.slice(1,4).map do |cmd_ast|
                     case cmd_ast[0]
                     when Flexsymtax::L_OP 
                         Op.extract(cmd_ast)
-                    when Flexsymatax::L_LABEL 
+                    when Flexsymtax::L_LABEL 
                         Label.extract(cmd_ast)
                     else
                         fail "Expected #{Flexsymtax::L_OP} or #{Flexsymtax::L_LABEL}"\
@@ -95,13 +96,12 @@ module Flexsym
             end
         end
 
-        private_class_method :new
         def initialize(*cmds)
             @commands = {}
             cmds.each do |cmd|
                 case cmd
                 when Op     then add_op(cmd.opcode)
-                when Label  then @commands[:trans] = cmd.label
+                when Label  then @commands[:trans] = cmd.value
                 end
            end
         end
@@ -118,6 +118,8 @@ module Flexsym
                 @commands[:out]  = opcode
             when Flexsymtax::O_VOID
                 @commands[:void] = opcode
+            else 
+                fail "Unrecognized opcode #{opcode}"
             end
         end
     end
@@ -135,14 +137,13 @@ module Flexsym
             end
         end
 
-        private_class_method :new
         def initialize(opcode)
             @opcode = opcode
         end
     end
 
     class Label
-        attr_reader :label
+        attr_reader :value
 
         def self.extract(ast)
             case ast[0]
@@ -150,13 +151,12 @@ module Flexsym
                 label = ast[1]
                 Label.new(label)
             else
-                fail "Expected #{Flexsymtax::L_Label} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_LABEL} but found--#{ast[0]}--#{ast}"
             end
         end
 
-        private_class_method :new
-        def initialize(label)
-            @label = label
+        def initialize(value)
+            @value = value
         end
     end
 
@@ -166,16 +166,15 @@ module Flexsym
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_NUM
-                s_int = ast[1]
-                Num.new(s_int)
+                hexnum = ast[1]
+                Num.new(hexnum)
             else
                 fail "Expected #{Flexsymtax::L_NUM} but found--#{ast[0]}--#{ast}"
             end
         end
 
-        private_class_method :new
-        def initialize(s_int)
-            @value = Integer(s_int)
+        def initialize(value)
+            @value = value
         end
     end
 end

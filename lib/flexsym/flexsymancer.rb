@@ -1,5 +1,6 @@
 require_relative 'flexsymtax'
 require_relative 'flextractor'
+require_relative 'flexsymachine'
 
 module Flexsym
     class Flexsymancer
@@ -16,7 +17,8 @@ module Flexsym
 
         def build(ast)
             @program = Program.extract(ast)
-            @machines = [Flexsymachine.new(@program.states, Tape.new, @program.main)]
+            main_state = @program.states[@program.main.value]
+            @machines = [Flexsymachine.new(@program.states, Tape.new, main_state)]
         end
 
         def run
@@ -29,7 +31,7 @@ module Flexsym
                     halt = halt || machine.halt?
                     # Add new machines to list
                     next_states.each do |m|
-                        @machines.push(Flexsymachines.new(@program.states, tape.dup, s))
+                        @machines.push(Flexsymachines.new(@program.states, tape.dup, m))
                     end
                 end
             end

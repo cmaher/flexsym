@@ -70,17 +70,17 @@ module Flexsym
         end
 
         def parser_branch
-            sequence(parser_ignore >> parser_num, 
+            sequence(parser_num, 
                      parser_ignore! >> parser_block) do |condition, block|
                 Flexsymtax.branch(condition, block)
             end
         end
 
         def parser_state
-            branches = parser_branch.many
+            branches = (parser_branch << parser_ignore).many
             sequence(parser_ignore! >> parser_label,
                      parser_ignore! >> parser_block,
-                     parser_ignore! >> branches) do |ref, default, branches|
+                     parser_ignore >> branches) do |ref, default, branches|
                 Flexsymtax.state(ref, default, branches)
             end
         end
