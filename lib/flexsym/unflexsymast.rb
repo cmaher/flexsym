@@ -47,13 +47,8 @@ module Flexsym
         end
 
         def parser_num
-            minus = char C_PRED
-            hexnum = among(*HEX).many(1).map{|digits| digits.join}
-            neg_hexnum = minus >> hexnum.map{|num| "-" << num}
-
-            (neg_hexnum | hexnum).map do |hexnum|
-                Flexsymtax.num(hexnum.to_i(16)) 
-            end
+            hexnum = among(*HEX).repeat(2, 2).map{|digits| digits.join}
+            hexnum.map{|num| Flexsymtax.num(num.to_i(16))}
         end
 
         def parser_op
