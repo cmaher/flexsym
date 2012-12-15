@@ -1,7 +1,7 @@
 flexsym
 =======
 
-Flexsym is an automata-based, Turing-tarpit programming language, 
+Flexsym is an automata-based, Turing-tarpit programming language
 for the construction of non-deterministic Turing machines.
 
 ## Requirements
