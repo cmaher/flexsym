@@ -1,0 +1,29 @@
+Note: this could be simpler, but I'm also testing new tape cell creation
+when going beyond the beginning
+
+;input;
+
+add the initial values to the tape
+;input; _ _ + ;input;
+4 _ _ > ;input2;
+
+;input2; _ _ + ;input2;
+7 _ _ < ;start; 
+
+;start; _ _ _ ;add_first;
+
+;add_first; _ - < ;plus_result;
+0 _ _ > ;sub_second;
+
+;plus_result; _ + > ;add_first; 
+
+;sub_second; _ - < ;sub_second_move;
+0 _ _ < ;output_move;
+
+;sub_second_move; _ _ < ;sub_second_apply;
+
+;sub_second_apply; _ - > ;add_first;
+
+;output_move; _ _ < ;output;
+
+;output; _ _ . _
