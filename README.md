@@ -10,7 +10,7 @@ Ruby 1.9.3
 rparsec-ruby19
 
 ## Usage
-$ bin/flexsym <code-file>
+$ bin/flexsym &lt;code-file&gt;
 
 ##Description
 
