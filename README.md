@@ -4,6 +4,12 @@ flexsym
 Flexsym is an automata-based, Turing-tarpit programming language, 
 for the construction of non-deterministic Turing machines.
 
+## Requirements
+Ruby 1.9.3
+rparsec-ruby19
+
+##Description
+
 Just like a Turing machine, the flexsym runtime operates on a set of states, an infinite 1-dimensional tape,
 and a head.  Each cell in the tape can hold any Integer (that your implementation of Ruby can support...)
 
