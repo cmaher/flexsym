@@ -166,8 +166,8 @@ module Flexsym
         def self.extract(ast)
             case ast[0]
             when Flexsymtax::L_NUM
-                hexnum = ast[1]
-                Num.new(hexnum)
+                num = ast[1]
+                Num.new(num)
             else
                 fail "Expected #{Flexsymtax::L_NUM} but found--#{ast[0]}--#{ast}"
             end

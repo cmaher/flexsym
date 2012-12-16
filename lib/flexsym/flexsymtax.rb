@@ -18,6 +18,8 @@ module Flexsym
         O_OUTD  = :outd
         O_VOID  = :void
 
+        OPS = [O_SUCC, O_PRED, O_LEFT, O_RIGHT, O_OUTA, O_OUTD, O_VOID]
+
         def self.program(main_ref, states)
             [L_PROGRAM, main_ref, states]
         end

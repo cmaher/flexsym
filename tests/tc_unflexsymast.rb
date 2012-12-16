@@ -1,7 +1,6 @@
 require 'test/unit'
 require 'rparsec'
-require 'flexsym/flexsymtax'
-require 'flexsym/unflexsymast'
+require 'flexsym'
 
 class TestParse < Test::Unit::TestCase
     include Flexsym
@@ -13,7 +12,7 @@ class TestParse < Test::Unit::TestCase
 
     def test_p_ignore!
         no_ignore = [*Unflexsymast::OPS, Unflexsymast::C_QUOTE]
-        ignore = ['', ' ',"!@\#$%&*()=\u1234\u0123\u6fab\n\t\r", 
+        ignore = ['', ' ', "!@\#$%&*()=\u1234\u0123\u6fab\n\t\r", 
             *(?a..?z), *(?A..?Z), '01234567890abcdefABCDEF', *Unflexsymast::HEX]
 
         no_ignore.each do |x|
@@ -52,8 +51,9 @@ class TestParse < Test::Unit::TestCase
     end
 
     def test_p_num
-        nums = Unflexsymast::HEX.repeated_permutation(2).map{|xs| xs.join}
-        not_nums = ['', ';abc;', *(?g..?z), *(?G..?Z), '+', '-', 'x', *Unflexsymast::HEX] 
+        nums_3 = Unflexsymast::HEX.permutation(3).map{|xs| xs.join}
+        nums = [*Unflexsymast::HEX, *nums_3, *nums_3.map{|x| "-" << x}]
+        not_nums = ['', ';abc;', *(?g..?z), *(?G..?Z), '+', '-', 'x' ] 
 
         nums.each do |x|
             assert_equal(Flexsymtax::num(x.to_i(16)), @unflex.parser_num.parse(x))
