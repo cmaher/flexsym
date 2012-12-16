@@ -18,4 +18,9 @@ class TestExamples < Test::Unit::TestCase
         output = `ruby bin/flexsym examples/nd4.flexsym`
         assert_equal("4444\n", output)
     end
+
+    def test_sub
+        output = `ruby bin/flexsym examples/sub.flexsym`
+        assert_equal('-3', output)
+    end
 end
