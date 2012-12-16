@@ -1,13 +1,16 @@
 flexsym
 =======
 
-Flexsym is an automata-based, Turing-tarpit programming language, 
+Flexsym is an automata-based, Turing-tarpit programming language
 for the construction of non-deterministic Turing machines.
 
 ## Requirements
 Ruby 1.9.3
 
 rparsec-ruby19
+
+## Usage
+$ bin/flexsym &lt;code-file&gt;
 
 ##Description
 
@@ -117,4 +120,4 @@ Basic Grammar:
 Additionally, non-op, non-';', are allowed anywhere. Note that in most places, a-f will be interpreted as numbers, so be careful.  A good place for comments is inbetween a state's label and its default block
 
 
-This is an entry for the December 2012 competion at www.pltgames.com
+This is an entry for the December 2012 competition at www.pltgames.com
