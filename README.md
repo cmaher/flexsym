@@ -15,7 +15,7 @@ $ bin/flexsym &lt;code-file&gt;
 ##Description
 
 Just like a Turing machine, the flexsym runtime operates on a set of states, an infinite 1-dimensional tape 
-(with each cell initialized to 0),and a head.  Each cell in the tape can hold any Integer 
+(with each cell initialized to 0), and a head.  Each cell in the tape can hold any Integer 
 (that your implementation of Ruby can support...)
 
 Each state can read the value of the tape at the head and branch based on that value.
