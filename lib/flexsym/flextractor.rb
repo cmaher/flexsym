@@ -1,7 +1,15 @@
 require_relative 'flexsymtax'
 
 module Flexsym
+    module FlexReport
+        def self.error(type, ast, *labels)
+            lstr = [*labels].map{|l| "'#{l}'"}.join(' or ')
+            fail "Expected #{lstr} but found--'#{type}--#{ast.to_s}'"
+        end
+    end
+
     class Program
+        include FlexReport
         attr_reader :main, :states
 
         def self.extract(ast)
@@ -17,7 +25,7 @@ module Flexsym
                 state_hash = Hash[state_arr]
                 Program.new(main, state_hash)
             else 
-                fail "Expected #{Flexsymtax::L_PROGRAM} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_PROGRAM)
             end
         end
 
@@ -27,6 +35,7 @@ module Flexsym
     end
 
     class State
+        include FlexReport
         attr_reader :label, :default, :branches
 
         def self.extract(ast)
@@ -45,7 +54,7 @@ module Flexsym
                 end
                 State.new(label, default, branches)
             else
-                fail "Expected #{Flexsymtax::L_STATE} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_STATE)
             end
         end
 
@@ -55,6 +64,7 @@ module Flexsym
     end
 
     class Branch
+        include FlexReport
         attr_reader :condition, :block
 
         def self.extract(ast)
@@ -64,7 +74,7 @@ module Flexsym
                 block = Block.extract(ast.shift)
                 Branch.new(condition, block)
             else
-                fail "Expected #{Flexsymtax::L_BRANCH} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_BRANCH)
             end
         end
 
@@ -74,6 +84,7 @@ module Flexsym
     end
 
     class Block
+        include FlexReport
         attr_reader :commands
 
         def self.extract(ast)
@@ -86,13 +97,12 @@ module Flexsym
                     when Flexsymtax::L_LABEL 
                         Label.extract(cmd_ast)
                     else
-                        fail "Expected #{Flexsymtax::L_OP} or #{Flexsymtax::L_LABEL}"\
-                             "but found--#{optype}--#{cmd_ast.to_s}"
+                        FlexReport.error(optype, ast, Flexsymtax::L_OP, Flexsymtax::L_LABEL)
                     end
                 end
                 Block.new(*cmds)
             else
-                fail "Expected #{Flexsymtax::L_BLOCK} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_BLOCK)
             end
         end
 
@@ -125,6 +135,7 @@ module Flexsym
     end
 
     class Op
+        include FlexReport
         attr_reader :opcode
 
         def self.extract(ast)
@@ -133,7 +144,7 @@ module Flexsym
                 opcode = ast.shift
                 Op.new(opcode)
             else
-                fail "Expected #{Flexsymtax::L_OP} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_OP)
             end
         end
 
@@ -143,6 +154,7 @@ module Flexsym
     end
 
     class Label
+        include FlexReport
         attr_reader :value
 
         def self.extract(ast)
@@ -151,7 +163,7 @@ module Flexsym
                 label = ast.shift
                 Label.new(label)
             else
-                fail "Expected #{Flexsymtax::L_LABEL} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_LABEL)
             end
         end
 
@@ -161,6 +173,7 @@ module Flexsym
     end
 
     class Num
+        include FlexReport
         attr_reader :value
 
         def self.extract(ast)
@@ -169,7 +182,7 @@ module Flexsym
                 num = ast.shift
                 Num.new(num)
             else
-                fail "Expected #{Flexsymtax::L_NUM} but found--#{type}--#{ast.to_s}"
+                FlexReport.error(type, ast, Flexsymtax::L_NUM)
             end
         end
 
