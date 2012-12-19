@@ -5,11 +5,11 @@ module Flexsym
         attr_reader :main, :states
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_PROGRAM
-                main = Label.extract(ast[1])
+                main = Label.extract(ast.shift)
 
-                state_arr = ast[2].map do |state_ast|
+                state_arr = ast.shift.map do |state_ast|
                     s = State.extract(state_ast)
                     [s.label.value, s]
                 end
@@ -17,7 +17,7 @@ module Flexsym
                 state_hash = Hash[state_arr]
                 Program.new(main, state_hash)
             else 
-                fail "Expected #{Flexsymtax::L_PROGRAM} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_PROGRAM} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -30,12 +30,12 @@ module Flexsym
         attr_reader :label, :default, :branches
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_STATE
-                label = Label.extract(ast[1])
-                default = Block.extract(ast[2])
+                label = Label.extract(ast.shift)
+                default = Block.extract(ast.shift)
                 branches = {}
-                ast[3].each do |branch_ast|
+                ast.shift.each do |branch_ast|
                    branch = Branch.extract(branch_ast)
                    if branches[branch.condition]
                        branches[branch.condition] << branch
@@ -45,7 +45,7 @@ module Flexsym
                 end
                 State.new(label, default, branches)
             else
-                fail "Expected #{Flexsymtax::L_STATE} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_STATE} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -58,13 +58,13 @@ module Flexsym
         attr_reader :condition, :block
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_BRANCH
-                condition = Num.extract(ast[1]).value
-                block = Block.extract(ast[2])
+                condition = Num.extract(ast.shift).value
+                block = Block.extract(ast.shift)
                 Branch.new(condition, block)
             else
-                fail "Expected #{Flexsymtax::L_BRANCH} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_BRANCH} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -77,22 +77,22 @@ module Flexsym
         attr_reader :commands
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_BLOCK
-                cmds = ast.slice(1,4).map do |cmd_ast|
-                    case cmd_ast[0]
+                cmds = ast.map do |cmd_ast|
+                    case optype = cmd_ast[0]
                     when Flexsymtax::L_OP 
                         Op.extract(cmd_ast)
                     when Flexsymtax::L_LABEL 
                         Label.extract(cmd_ast)
                     else
                         fail "Expected #{Flexsymtax::L_OP} or #{Flexsymtax::L_LABEL}"\
-                             "but found--#{cmd_ast[0]}--#{cmd_ast}"
+                             "but found--#{optype}--#{cmd_ast.to_s}"
                     end
                 end
                 Block.new(*cmds)
             else
-                fail "Expected #{Flexsymtax::L_BLOCK} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_BLOCK} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -128,12 +128,12 @@ module Flexsym
         attr_reader :opcode
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_OP
-                opcode = ast[1]
+                opcode = ast.shift
                 Op.new(opcode)
             else
-                fail "Expected #{Flexsymtax::L_OP} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_OP} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -146,12 +146,12 @@ module Flexsym
         attr_reader :value
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_LABEL
-                label = ast[1]
+                label = ast.shift
                 Label.new(label)
             else
-                fail "Expected #{Flexsymtax::L_LABEL} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_LABEL} but found--#{type}--#{ast.to_s}"
             end
         end
 
@@ -164,12 +164,12 @@ module Flexsym
         attr_reader :value
 
         def self.extract(ast)
-            case ast[0]
+            case type = ast.shift
             when Flexsymtax::L_NUM
-                num = ast[1]
+                num = ast.shift
                 Num.new(num)
             else
-                fail "Expected #{Flexsymtax::L_NUM} but found--#{ast[0]}--#{ast}"
+                fail "Expected #{Flexsymtax::L_NUM} but found--#{type}--#{ast.to_s}"
             end
         end
 
