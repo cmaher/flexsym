@@ -6,8 +6,8 @@ require_relative '../lib/flexsym'
 USAGE = 'Usage: flexsym [<options>] <filename>' 
 
 unless ARGV[0] 
-    puts USAGE
-    exit!
+  puts USAGE
+  exit!
 end
 
 source = IO.read(ARGV[0])
