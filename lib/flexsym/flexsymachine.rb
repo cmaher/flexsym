@@ -18,8 +18,8 @@ module Flexsym
       # Get the branches corresponding to the current tape value
       # Or choose the default
       branches = @cur_state.branches[@tape.val]
-      if not branches.nil?
-        blocks = branches.map{ |branch| branch.block} 
+      if branches
+        blocks = branches.map{ |branch| branch.block } 
       else
         blocks = [@cur_state.default]
       end
@@ -67,9 +67,8 @@ module Flexsym
     # Return the transition state
     def exec_trans(block, next_states)
       if block[:trans]
-        s = @states[block[:trans]]
-        if not s.nil?
-          next_states << @states[block[:trans]]
+        if (s = @states[block[:trans]])
+          next_states << s
         else
           fail "Unrecognized state: ;#{block[:trans]};"
         end

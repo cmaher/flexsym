@@ -48,16 +48,16 @@ module Flexsym
 
     def parser_num
       minus = char C_PRED
-      hexnum = among(*HEX).many(1).map{|digits| digits.join}
-      neg_hexnum = minus >> hexnum.map{|num| "-" << num}
+      hexnum = among(*HEX).many(1).map{ |digits| digits.join }
+      neg_hexnum = minus >> hexnum.map{ |num| "-" << num }
 
-      (neg_hexnum | hexnum).map do |hexnum|
-        Flexsymtax.num(hexnum.to_i(16)) 
+      (neg_hexnum | hexnum).map do |h|
+        Flexsymtax.num(h.to_i(16)) 
       end
     end
 
     def parser_op
-      among(*OPS).map{|op| Flexsymtax.op(OPCODES[op])}
+      among(*OPS).map{ |op| Flexsymtax.op(OPCODES[op]) }
     end
 
     def parser_command
@@ -85,15 +85,15 @@ module Flexsym
       branches = (parser_branch << parser_ignore).many
       sequence(parser_ignore! >> parser_label,
                parser_ignore! >> parser_block,
-               parser_ignore >> branches) do |ref, default, branches|
-        Flexsymtax.state(ref, default, branches)
+               parser_ignore >> branches) do |ref, default, bs|
+        Flexsymtax.state(ref, default, bs)
                end
     end
 
     def parser_program
       states = (parser_state << parser_ignore!).many(1)
-      parser_ignore! >> sequence(parser_label, states) do |main_ref, states|
-        Flexsymtax.program(main_ref, states)
+      parser_ignore! >> sequence(parser_label, states) do |main_ref, s|
+        Flexsymtax.program(main_ref, s)
       end
     end
 
