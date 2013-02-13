@@ -1,6 +1,6 @@
-require_relative 'flexsymtax'
-require_relative 'flextractor'
-require_relative 'flexsymachine'
+require 'flexsymtax'
+require 'flextractor'
+require 'flexsymachine'
 
 module Flexsym
   class Flexsymancer
@@ -13,7 +13,7 @@ module Flexsym
       run
     end
 
-    protected
+    private
 
     def build(ast)
       @program = Program.extract(ast)
@@ -67,7 +67,7 @@ module Flexsym
         @tape[@head]
       end
 
-      protected
+      private
 
       # Moves head left, creating new cell if necessary
       def left
