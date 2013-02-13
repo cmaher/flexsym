@@ -1,21 +1,20 @@
-Delcare the main state
+Declare the main state
 ;to4; 
 
 ;to4;
 Increase until 4, then branch nondeterministically 4 times
 _ _ + ;to4; 
 4 _ _ _ ;p4-1; 
+4 _ _ _ ;p4-1;
+4 _ _ _ ;p4-1;
 4 _ _ _ ;p4-2;
-4 _ _ _ ;p4-3;
-4 _ _ _ ;p4-4;
 
 ;p4-1;
-For p4 'dash' 1 through 3, output, then loop
+Output, then loop
 _ _ . ;lp; 
-;p4-2; _ _ . ;lp;
-;p4-3; _ _ . ;lp;
-;p4-4; 
-Output, then go to newline state
+
+;p4-2; 
+Output, then newline
 _ > . ;\n; 
 
 
