@@ -1,4 +1,4 @@
 require 'test/unit'
-require_relative 'tc_unflexsymast.rb'
-require_relative 'tc_flextractor.rb'
-require_relative 'tc_programs.rb'
+require 'tc_unflexsymast.rb'
+require 'tc_flextractor.rb'
+require 'tc_programs.rb'
