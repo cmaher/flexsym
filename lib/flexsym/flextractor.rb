@@ -1,4 +1,4 @@
-require_relative 'flexsymtax'
+require 'flexsymtax'
 
 module Flexsym
   module FlexReport
