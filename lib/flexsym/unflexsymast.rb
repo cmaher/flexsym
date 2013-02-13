@@ -1,5 +1,5 @@
 require 'rparsec'
-require_relative 'flexsymtax'
+require 'flexsymtax'
 
 module Flexsym
   class Unflexsymast
