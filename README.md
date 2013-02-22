@@ -123,4 +123,5 @@ Additionally, non-op, non-';', are allowed anywhere. Note that in most places, a
 
 This is an entry for the December 2012 competition at www.pltgames.com
 
-##License: MIT
+License: MIT
+===
