@@ -11,5 +11,5 @@ unless ARGV[0]
 end
 
 source = IO.read(ARGV[0])
-parser = Flexsym::Unflexsymast.new(source)
+parser = Flexsym::Flexsymast.new(source)
 Flexsym::Flexsymancer.new(parser.parse).interpret
