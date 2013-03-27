@@ -7,13 +7,13 @@ class TestParse < Test::Unit::TestCase
   ParserException = RParsec::ParserException
 
   def setup
-    @unflex = Unflexsymast.new('')
+    @unflex = Flexsymast.new('')
   end
 
   def test_p_ignore!
-    no_ignore = [*Unflexsymast::OPS, Unflexsymast::C_QUOTE]
+    no_ignore = [*Flexsymast::OPS, Flexsymast::C_QUOTE]
     ignore = ['', ' ', "!@\#$%&*()=\u1234\u0123\u6fab\n\t\r", 
-      *(?a..?z), *(?A..?Z), '01234567890abcdefABCDEF', *Unflexsymast::HEX]
+      *(?a..?z), *(?A..?Z), '01234567890abcdefABCDEF', *Flexsymast::HEX]
 
       no_ignore.each do |x|
         assert_equal([], @unflex.parser_ignore!.parse(x))
@@ -25,7 +25,7 @@ class TestParse < Test::Unit::TestCase
   end
 
   def test_p_ignore
-    no_ignore = [*Unflexsymast::OPS, Unflexsymast::C_QUOTE, *Unflexsymast::HEX]
+    no_ignore = [*Flexsymast::OPS, Flexsymast::C_QUOTE, *Flexsymast::HEX]
     ignore = ['', ' ', "!@\#$%&*()=\u1234\u0123\u6fab\n\t\r", *(?g..?z), *(?G..?Z)]
 
     no_ignore.each do |x|
@@ -51,8 +51,8 @@ class TestParse < Test::Unit::TestCase
   end
 
   def test_p_num
-    nums_3 = Unflexsymast::HEX.permutation(3).map{|xs| xs.join}
-    nums = [*Unflexsymast::HEX, *nums_3, *nums_3.map{|x| "-" << x}]
+    nums_3 = Flexsymast::HEX.permutation(3).map{|xs| xs.join}
+    nums = [*Flexsymast::HEX, *nums_3, *nums_3.map{|x| "-" << x}]
     not_nums = ['', ';abc;', *(?g..?z), *(?G..?Z), '+', '-', 'x' ] 
 
     nums.each do |x|
@@ -65,11 +65,11 @@ class TestParse < Test::Unit::TestCase
   end
 
   def test_p_op
-    ops = [*Unflexsymast::OPS]
-    not_ops = ['', Unflexsymast::C_QUOTE]
+    ops = [*Flexsymast::OPS]
+    not_ops = ['', Flexsymast::C_QUOTE]
 
     ops.each do |x|
-      assert_equal(Flexsymtax::op(Unflexsymast::OPCODES[x]), @unflex.parser_op.parse(x))
+      assert_equal(Flexsymtax::op(Flexsymast::OPCODES[x]), @unflex.parser_op.parse(x))
     end
 
     not_ops.each do |x|
@@ -78,7 +78,7 @@ class TestParse < Test::Unit::TestCase
   end
 
   def test_p_block
-    block_opts = [*Unflexsymast::OPS, ';label;']
+    block_opts = [*Flexsymast::OPS, ';label;']
     permute_blocks = lambda do |n|
       block_opts.repeated_permutation(n).to_a
     end
