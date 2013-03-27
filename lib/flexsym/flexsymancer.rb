@@ -1,6 +1,6 @@
-require 'flexsymtax'
-require 'flextractor'
-require 'flexsymachine'
+require 'flexsym/flexsymtax'
+require 'flexsym/flextractor'
+require 'flexsym/flexsymachine'
 
 module Flexsym
   class Flexsymancer
@@ -78,7 +78,7 @@ module Flexsym
         end
       end
 
-      # Moves head right, creating new cell if necessar
+      # Moves head right, creating new cell if necessary
       def right
         if @head == @tape.length - 1
           @tape.push(0)
