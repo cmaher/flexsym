@@ -2,7 +2,7 @@ require 'rparsec'
 require 'flexsym/flexsymtax'
 
 module Flexsym
-  class Unflexsymast
+  class Flexsymast
     include RParsec::Parsers
 
     C_SUCC  = ?+
