@@ -13,7 +13,7 @@ module Flexsym
     # * A list of new states for nondeterministic branching
     # * The tape, for duplicating and passing to new machines
     def step
-      unless @halt
+      unless halt?
         next_states = exec_blocks(get_blocks)
         
         if next_states.empty?
@@ -26,11 +26,15 @@ module Flexsym
       end
     end
 
+    def halt?
+      @halt
+    end
+
     private
     
     # Get the default blocks or blocks for current tape value
     def get_blocks
-      if (branches = @cur_state.branches[@tape.val]
+      if (branches = @cur_state.branches[@tape.val])
         branches.map { |branch| branch.block } 
       else
         [@cur_state.default]
@@ -39,7 +43,7 @@ module Flexsym
     
     # Execute all of the given blocks and return the new states
     def exec_blocks(blocks)
-      blocks.map { |block| exec_commands(block.commands) }
+      blocks.map { |block| exec_commands(block.commands) }.compact || []
     end
     
     # Execute all of the given commands and return the new state
@@ -63,7 +67,7 @@ module Flexsym
     # Perform output (:outa/:outd)
     def exec_out(cmds)
       val = @tape.val
-      case block[:out]
+      case cmds[:out]
       when Flexsymtax::O_OUTA then print [val].pack('U')
       when Flexsymtax::O_OUTD then print val
       end
@@ -71,13 +75,9 @@ module Flexsym
 
     # Return the transition state
     def exec_trans(cmds)
-      if (trans = cmds[:trans] && (next_state = @states[trans])
+      if (trans = cmds[:trans]) && (next_state = @states[trans])
           next_state
       end
-    end
-
-    def halt?
-      @halt
     end
   end
 end

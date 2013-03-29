@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rparsec'
 require 'flexsym'
 
 USAGE = 'Usage: flexsym [<options>] <filename>' 
