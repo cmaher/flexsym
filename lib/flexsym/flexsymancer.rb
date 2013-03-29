@@ -25,11 +25,8 @@ module Flexsym
       halt = false
       while !halt
         @machines.each do |machine|
-          # Step the machine; Get next states and tape
           next_states, tape = machine.step
-          # If this machine halted, set halt to true
           halt = halt || machine.halt?
-          # Add new machines to list
           next_states.each do |m|
             @machines.push(Flexsymachine.new(@program.states, tape.dup, m))
           end
