@@ -5,7 +5,7 @@ Flexsym is an automata-based, Turing-tarpit programming language
 for the construction of non-deterministic Turing machines.
 
 ## Usage
-    $ bin/flexsym &lt;code-file&gt;
+    $ bin/flexsym <code-file>
 
 test with
 
