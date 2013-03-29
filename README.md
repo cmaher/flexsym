@@ -8,6 +8,7 @@ for the construction of non-deterministic Turing machines.
     $ bin/flexsym &lt;code-file&gt;
 
 test with
+
     $ rake test
 
 ##Description
