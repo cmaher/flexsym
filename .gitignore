@@ -20,3 +20,4 @@ doc/
 *.swp
 .idebug.rb
 .rbenv-gemsets
+Gemfile.lock
